@@ -55,9 +55,9 @@ namespace TravelBlog.Controllers
             }
         }
 
-        public IActionResult Delete(string RoleName)
+        public IActionResult Delete(string RoleId)
         {
-            var thisRole = _db.Roles.FirstOrDefault(r => r.Name == RoleName);
+            var thisRole = _db.Roles.FirstOrDefault(r => r.Id == RoleId);
             _db.Roles.Remove(thisRole);
             _db.SaveChanges();
             return RedirectToAction("Index");
@@ -96,27 +96,47 @@ namespace TravelBlog.Controllers
             return View();
         }
 
-        //   [HttpPost]
-        //   [ValidateAntiForgeryToken]
-        //   public Task<IActionResult> RoleAddToUser(string UserName, string RoleName)
-        //   {
-        //    try
-        //    {
-        //        ApplicationUser user = _db.Users.FirstOrDefault(u => u.UserName == UserName);
-        //        var task = await _userManager.AddToRoleAsync(user, RoleId);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RoleAddToUser(string UserName, string RoleId)
+        {
+            try
+            {
+                ApplicationUser user = _db.Users.FirstOrDefault(u => u.UserName == UserName);
+                var task = await _userManager.AddToRoleAsync(user, RoleId);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return View();
-        //    }
-        //    ViewBag.ResultMessage = "Role created successfully !";
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+            ViewBag.ResultMessage = "Role created successfully !";
 
-        //    // prepopulat roles for the view dropdown
-        //    var list = _db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Id.ToString(), Text = rr.Name }).ToList();
-        //    ViewBag.Roles = list;
+   
+            var list = _db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Id.ToString(), Text = rr.Name }).ToList();
+            ViewBag.Roles = list;
+
+            return View("ManageUserRoles");
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult GetRoles(string UserName)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(UserName))
+        //    {
+        //        ApplicationUser user = context.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+        //        var account = new AccountController();
+
+        //        ViewBag.RolesForThisUser = account.UserManager.GetRoles(user.Id);
+
+        //        // prepopulat roles for the view dropdown
+        //        var list = context.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+        //        ViewBag.Roles = list;
+        //    }
 
         //    return View("ManageUserRoles");
         //}
+
     }
 }
