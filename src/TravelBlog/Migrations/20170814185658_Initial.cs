@@ -81,6 +81,19 @@ namespace TravelBlog.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Suggestion",
+                columns: table => new
+                {
+                    SuggestionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Destination = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Suggestion", x => x.SuggestionId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -350,6 +363,9 @@ namespace TravelBlog.Migrations
 
             migrationBuilder.DropTable(
                 name: "Regions");
+
+            migrationBuilder.DropTable(
+                name: "Suggestion");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

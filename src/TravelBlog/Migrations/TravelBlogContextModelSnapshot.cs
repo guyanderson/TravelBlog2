@@ -272,6 +272,18 @@ namespace TravelBlog.Migrations
                     b.ToTable("Regions");
                 });
 
+            modelBuilder.Entity("TravelBlog.Models.Suggestion", b =>
+                {
+                    b.Property<int>("SuggestionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Destination");
+
+                    b.HasKey("SuggestionId");
+
+                    b.ToTable("Suggestion");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
